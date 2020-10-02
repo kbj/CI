@@ -63,8 +63,24 @@ jobs:
           make O=out lineage_oneplus5_defconfig
           make -j$(nproc --all) O=out ARCH=arm64 SUBARCH=arm64 CC=/opt/clang/bin/clang CROSS_COMPILE=/opt/gcc64/bin/aarch64-linux-gnu- CONFIG_DEBUG_SECTION_MISMATCH=y CLANG_TRIPLE=aarch64-linux-gnu-
       
+      - name: AnyKernel Package
+        run: |
+          git clone --depth=1 https://github.com/osm0sis/AnyKernel3
+          sed -i '42,60d' ./AnyKernel3/anykernel.sh
+          sed -i 's/kernel.string=ExampleKernel by osm0sis @ xda-developers/kernel.string=Crdroid-OP5T Fliker Free kernel/g' ./AnyKernel3/anykernel.sh
+          sed -i 's/device.name1=maguro/device.name1=cheeseburger/g' ./AnyKernel3/anykernel.sh
+          sed -i 's/device.name2=toro/device.name2=dumpling/g' ./AnyKernel3/anykernel.sh
+          sed -i 's/supported.versions=/supported.versions=10.0.0/g' ./AnyKernel3/anykernel.sh
+          sed -i '/device.name3=toroplus/'d ./AnyKernel3/anykernel.sh
+          sed -i '/device.name4=tuna/'d ./AnyKernel3/anykernel.sh
+          sed -i '/device.name5=/'d ./AnyKernel3/anykernel.sh
+
+          cd AnyKernel3
+          cp /opt/android_kernel_oneplus_msm8998/out/arch/arm64/boot/Image.gz-dtb ./
+          zip -r Crd-OP5-5T-flikerfree-dither.zip ./*
+      
       - name: Deliver KernelInfo
         uses: actions/upload-artifact@v2
         with:
           name: Kernel
-          path: /opt/android_kernel_oneplus_msm8998/out/arch/arm64/boot/
+          path: ./AnyKernel3/Crd-OP5-5T-flikerfree-dither.zip
