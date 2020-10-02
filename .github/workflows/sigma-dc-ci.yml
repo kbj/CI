@@ -1,0 +1,75 @@
+name: Sigma-DC-CI
+
+on:
+  watch:
+    types: started
+  release:
+    types: [published]
+
+
+jobs:
+  build_kernel:
+
+    name: Build Sigma DC Dimming Kernel For OnePlus5/T
+    runs-on: ubuntu-latest
+    if: github.event.repository.owner.id == github.event.sender.id
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: master
+      
+      - name: Space Cleanup
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          docker rmi `docker images -q`
+          sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d
+          sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* php* android*
+          sudo -E apt-get update
+          sudo -E apt-get -y install bc wget bison ca-certificates ccache clang cmake curl file flex gcc g++ git libelf-dev libssl-dev make ninja-build python3 texinfo u-boot-tools xz-utils zlib1g-dev unzip
+          sudo -E apt-get -y autoremove --purge
+          sudo -E apt-get clean
+      
+      - name: Prepare Environment
+        run: |
+          mkdir /opt/clang
+          cd /opt/clang
+          wget https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/android10-c2f2-release/clang-r353983c.tar.gz
+          tar -zxvf clang-r353983c.tar.gz
+          rm -rf clang-r353983c.tar.gz
+
+          cd /opt
+          wget https://developer.arm.com/-/media/Files/downloads/gnu-a/8.3-2019.03/binrel/gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf.tar.xz -O gcc32.tar.xz
+          tar -xvJf gcc32.tar.xz -C /opt
+          rm -rf gcc32.tar.xz
+          mv gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf gcc32
+
+          wget https://developer.arm.com/-/media/Files/downloads/gnu-a/8.3-2019.03/binrel/gcc-arm-8.3-2019.03-x86_64-aarch64-linux-gnu.tar.xz -O gcc64.tar.xz
+          tar -xvJf gcc64.tar.xz -C /opt
+          rm -rf gcc64.tar.xz
+          mv gcc-arm-8.3-2019.03-x86_64-aarch64-linux-gnu gcc64
+
+      - name: Clone Kernel Code
+        run: |
+          git clone --depth=1 https://github.com/crdroidandroid/android_kernel_oneplus_msm8998 /opt/android_kernel_oneplus_msm8998
+          cd /opt/android_kernel_oneplus_msm8998
+          wget https://github.com/kbj/crd-dc-kernel/raw/main/crd-dc.patch -O /opt/crd-dc.patch
+          git apply /opt/crd-dc.patch
+      
+      - name: Compile Kernel
+        run: |
+          cd /opt/android_kernel_oneplus_msm8998
+          export CROSS_COMPILE=/opt/gcc64/bin/aarch64-linux-gnu-
+          export CROSS_COMPILE_ARM32=/opt/gcc32/bin/arm-linux-gnueabihf-
+          export ARCH=arm64
+          export SUBARCH=arm64
+          make O=out lineage_oneplus5_defconfig
+          make -j$(nproc --all) O=out ARCH=arm64 SUBARCH=arm64 CC=/opt/clang/bin/clang CROSS_COMPILE=/opt/gcc64/bin/aarch64-linux-gnu- CONFIG_DEBUG_SECTION_MISMATCH=y CLANG_TRIPLE=aarch64-linux-gnu-
+      
+      - name: Deliver KernelInfo
+        uses: actions/upload-artifact@v2
+        with:
+          name: Kernel
+          path: /opt/android_kernel_oneplus_msm8998/out/arch/arm64/boot/
