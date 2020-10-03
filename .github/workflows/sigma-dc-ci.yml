@@ -1,4 +1,4 @@
-name: Sigma-DC-CI
+name: Sigma-DC-Dimming-CI
 
 on:
   release: 
@@ -30,9 +30,9 @@ jobs:
         run: |
           mkdir /opt/clang
           cd /opt/clang
-          wget https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/android10-c2f2-release/clang-r353983c.tar.gz
-          tar -zxvf clang-r353983c.tar.gz
-          rm -rf clang-r353983c.tar.gz
+          wget https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/e490075c81db3990363e491e3947d1e48a05e370/clang-r399163b.tar.gz
+          tar -zxvf clang-r399163b.tar.gz
+          rm -rf clang-r399163b.tar.gz
 
           cd /opt
           wget https://developer.arm.com/-/media/Files/downloads/gnu-a/8.3-2019.03/binrel/gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf.tar.xz -O gcc32.tar.xz
@@ -66,7 +66,7 @@ jobs:
         run: |
           git clone --depth=1 https://github.com/osm0sis/AnyKernel3
           sed -i '42,60d' ./AnyKernel3/anykernel.sh
-          sed -i 's/kernel.string=ExampleKernel by osm0sis @ xda-developers/kernel.string=Crdroid-OP5T Fliker Free kernel/g' ./AnyKernel3/anykernel.sh
+          sed -i 's/kernel.string=ExampleKernel by osm0sis @ xda-developers/kernel.string=Crdroid-OP5\/T Fliker Free kernel/g' ./AnyKernel3/anykernel.sh
           sed -i 's/device.name1=maguro/device.name1=cheeseburger/g' ./AnyKernel3/anykernel.sh
           sed -i 's/device.name2=toro/device.name2=dumpling/g' ./AnyKernel3/anykernel.sh
           sed -i 's/supported.versions=/supported.versions=10.0.0/g' ./AnyKernel3/anykernel.sh
