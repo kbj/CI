@@ -1,7 +1,8 @@
 name: Sigma-DC-CI
 
 on:
-  workflow_dispatch:
+  release: [published]
+  workflow_dispatch: 
 
 
 jobs:
