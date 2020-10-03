@@ -1,10 +1,7 @@
 name: Sigma-DC-CI
 
 on:
-  watch:
-    types: started
-  release:
-    types: [published]
+  workflow_dispatch:
 
 
 jobs:
@@ -71,6 +68,7 @@ jobs:
           sed -i 's/device.name1=maguro/device.name1=cheeseburger/g' ./AnyKernel3/anykernel.sh
           sed -i 's/device.name2=toro/device.name2=dumpling/g' ./AnyKernel3/anykernel.sh
           sed -i 's/supported.versions=/supported.versions=10.0.0/g' ./AnyKernel3/anykernel.sh
+          sed -i 's/block=\/dev\/block\/platform\/omap\/omap_hsmmc.0\/by-name\/boot;/block=\/dev\/block\/bootdevice\/by-name\/boot;/g' ./AnyKernel3/anykernel.sh
           sed -i '/device.name3=toroplus/'d ./AnyKernel3/anykernel.sh
           sed -i '/device.name4=tuna/'d ./AnyKernel3/anykernel.sh
           sed -i '/device.name5=/'d ./AnyKernel3/anykernel.sh
