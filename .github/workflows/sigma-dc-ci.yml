@@ -43,9 +43,9 @@ jobs:
         env:
           PATCH_FILE: 'crd-dc.patch'
         run: |
+          [ -e $PATCH_FILE ] && mv $PATCH_FILE /opt/crd-dc.patch
           git clone --depth=1 https://github.com/crdroidandroid/android_kernel_oneplus_msm8998 /opt/android_kernel_oneplus_msm8998
           cd /opt/android_kernel_oneplus_msm8998
-          [ -e $PATCH_FILE ] && mv $PATCH_FILE /opt/
           git apply /opt/crd-dc.patch
       
       - name: Compile Kernel
