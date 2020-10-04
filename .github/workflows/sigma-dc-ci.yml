@@ -40,11 +40,9 @@ jobs:
           mv gcc-arm-9.2-2019.12-x86_64-aarch64-none-linux-gnu gcc64
 
       - name: Clone Kernel Code
-        env:
-          PATCH_FILE: 'crd-dc.patch'
         run: |
-          [ -e $PATCH_FILE ] && mv $PATCH_FILE /opt/crd-dc.patch
           git clone --depth=1 https://github.com/crdroidandroid/android_kernel_oneplus_msm8998 /opt/android_kernel_oneplus_msm8998
+          wget https://github.com/kbj/crd-dc-kernel/raw/main/crd-dc.patch -O /opt/crd-dc.patch
           cd /opt/android_kernel_oneplus_msm8998
           git apply /opt/crd-dc.patch
       
