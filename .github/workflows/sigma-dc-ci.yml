@@ -42,7 +42,7 @@ jobs:
       - name: Clone Kernel Code
         run: |
           git clone --depth=1 https://github.com/crdroidandroid/android_kernel_oneplus_msm8998 /opt/android_kernel_oneplus_msm8998
-          wget https://github.com/kbj/crd-dc-kernel/raw/main/crd-dc.patch -O /opt/crd-dc.patch
+          wget https://github.com/kbj/ci/raw/main/crd-dc.patch -O /opt/crd-dc.patch
           cd /opt/android_kernel_oneplus_msm8998
           git apply /opt/crd-dc.patch
       
