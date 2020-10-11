@@ -62,13 +62,23 @@ jobs:
           rm -rf OpenClash
 
           cd /opt/lede/package/lean/
+          
+          # 京东签到相关
           git clone --depth=1 https://github.com/jerrykuku/luci-app-jd-dailybonus.git
+          
+          # Adguard Home
           git clone --depth=1 https://github.com/rufengsuixing/luci-app-adguardhome.git
+          
+          # Docker
           git clone --depth=1 https://github.com/lisaac/luci-app-dockerman.git
           
+          # 主题
           rm -rf luci-theme-argon
           git clone --depth=1 -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git
           git clone --depth=1 https://github.com/jerrykuku/luci-app-argon-config.git
+          
+          # 微信推送
+          git clone --depth=1 https://github.com/tty228/luci-app-serverchan.git
 
       - name: Generate configuration file
         run: |
@@ -145,6 +155,7 @@ jobs:
           CONFIG_PACKAGE_luci-app-wireguard=y
           # CONFIG_PACKAGE_luci-app-xlnetacc is not set
           CONFIG_PACKAGE_luci-app-openclash=y
+          CONFIG_PACKAGE_luci-app-serverchan=y
           
           
           CONFIG_PACKAGE_luci-theme-argon=y
