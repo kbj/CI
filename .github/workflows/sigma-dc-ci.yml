@@ -1,4 +1,4 @@
-name: Sigma-DC-Dimming-CI
+name: Sigma-DC-CI
 
 on:
   release: 
