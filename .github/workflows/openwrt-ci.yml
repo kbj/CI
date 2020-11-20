@@ -125,6 +125,8 @@ jobs:
           CONFIG_PACKAGE_intel-microcode=y
           CONFIG_PACKAGE_aircard-pcmcia-firmware=y
           
+          CONFIG_PACKAGE_open-vm-tools=y
+          CONFIG_PACKAGE_open-vm-tools-fuse=y
           
           CONFIG_PACKAGE_luci-app-adguardhome=y
           CONFIG_PACKAGE_luci-app-ahcp=y
