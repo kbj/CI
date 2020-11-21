@@ -53,6 +53,7 @@ jobs:
       - name: Update feeds
         run: |
           sed -i 's/#src-git helloworld/src-git helloworld/g' /opt/lede/feeds.conf.default
+          
           cd /opt/lede
           ./scripts/feeds update -a
           ./scripts/feeds install -a
@@ -60,6 +61,10 @@ jobs:
           git clone --depth=1 https://github.com/vernesong/OpenClash.git
           mv OpenClash/luci-app-openclash /opt/lede/package/lean/
           rm -rf OpenClash
+          
+          git clone --depth=1 https://github.com/xiaorouji/openwrt-package.git pass-op
+          mv pass-op/lienol/luci-app-passwall /opt/lede/package/lean/
+          rm -rf pass-op
 
           cd /opt/lede/package/lean/
           
@@ -158,6 +163,7 @@ jobs:
           # CONFIG_PACKAGE_luci-app-xlnetacc is not set
           CONFIG_PACKAGE_luci-app-openclash=y
           CONFIG_PACKAGE_luci-app-serverchan=y
+          CONFIG_PACKAGE_luci-app-passwall=y
           
           
           CONFIG_PACKAGE_luci-theme-argon=y
