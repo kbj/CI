@@ -61,10 +61,6 @@ jobs:
           git clone --depth=1 https://github.com/vernesong/OpenClash.git
           mv OpenClash/luci-app-openclash /opt/lede/package/lean/
           rm -rf OpenClash
-          
-          git clone --depth=1 https://github.com/xiaorouji/openwrt-package.git pass-op
-          mv pass-op/lienol/luci-app-passwall /opt/lede/package/lean/
-          rm -rf pass-op
 
           cd /opt/lede/package/lean/
           
@@ -132,6 +128,8 @@ jobs:
           
           CONFIG_PACKAGE_open-vm-tools=y
           CONFIG_PACKAGE_open-vm-tools-fuse=y
+          CONFIG_PACKAGE_CONFIG_TARGET_IMAGES_PAD=y
+          CONFIG_PACKAGE_CONFIG_VMDK_IMAGES=y
           
           CONFIG_PACKAGE_luci-app-adguardhome=y
           CONFIG_PACKAGE_luci-app-ahcp=y
@@ -157,13 +155,13 @@ jobs:
           CONFIG_PACKAGE_luci-app-syncdial=y
           CONFIG_PACKAGE_luci-app-ttyd=y
           CONFIG_PACKAGE_luci-app-usb-printer=y
+          CONFIG_DEFAULT_luci-app-ssr-plus=y
           CONFIG_PACKAGE_luci-app-v2ray-server=y
           CONFIG_PACKAGE_luci-app-vnstat=y
           CONFIG_PACKAGE_luci-app-wireguard=y
           # CONFIG_PACKAGE_luci-app-xlnetacc is not set
           CONFIG_PACKAGE_luci-app-openclash=y
           CONFIG_PACKAGE_luci-app-serverchan=y
-          CONFIG_PACKAGE_luci-app-passwall=y
           
           
           CONFIG_PACKAGE_luci-theme-argon=y
