@@ -71,7 +71,7 @@ jobs:
           git clone --depth=1 https://github.com/rufengsuixing/luci-app-adguardhome.git
           
           # Docker
-          # git clone --depth=1 https://github.com/lisaac/luci-app-dockerman.git
+          git clone --depth=1 https://github.com/lisaac/luci-app-dockerman.git
           
           # 主题
           rm -rf luci-theme-argon
@@ -135,6 +135,7 @@ jobs:
           CONFIG_PACKAGE_luci-app-ahcp=y
           CONFIG_PACKAGE_luci-app-amule=y
           CONFIG_PACKAGE_luci-app-diskman=y
+          CONFIG_PACKAGE_luci-app-dockerman=y
           CONFIG_PACKAGE_luci-app-frpc=y
           CONFIG_PACKAGE_luci-app-guest-wifi=y
           CONFIG_PACKAGE_luci-app-hd-idle=y
@@ -168,6 +169,7 @@ jobs:
           
           CONFIG_PACKAGE_luci-proto-ipv6=y
           CONFIG_PACKAGE_luci-proto-wireguard=y
+          CONFIG_PACKAGE_luci-lib-docker=y
           CONFIG_PACKAGE_luci-lib-json=y
           
           CONFIG_PACKAGE_curl=y
