@@ -68,7 +68,8 @@ jobs:
           git clone --depth=1 https://github.com/jerrykuku/luci-app-jd-dailybonus.git
           
           # Adguard Home
-          git clone --depth=1 https://github.com/rufengsuixing/luci-app-adguardhome.git
+          # git clone --depth=1 https://github.com/rufengsuixing/luci-app-adguardhome.git
+          git clone --depth=1 https://github.com/kongfl888/luci-app-adguardhome.git
           
           # Docker
           git clone --depth=1 https://github.com/lisaac/luci-app-dockerman.git
