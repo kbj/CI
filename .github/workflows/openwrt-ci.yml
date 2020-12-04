@@ -53,14 +53,20 @@ jobs:
       - name: Update feeds
         run: |
           sed -i 's/#src-git helloworld/src-git helloworld/g' /opt/lede/feeds.conf.default
+          sed '$a\src-git lienol https://github.com/Lienol/openwrt-package' /opt/lede/feeds.conf.default
           
           cd /opt/lede
-          ./scripts/feeds update -a
-          ./scripts/feeds install -a
           
-          git clone --depth=1 https://github.com/vernesong/OpenClash.git
-          mv OpenClash/luci-app-openclash /opt/lede/package/lean/
-          rm -rf OpenClash
+          # 更新依赖
+          ./scripts/feeds update -a
+          
+          # 删除冲突依赖
+          rm -rf feeds/lienol/ipt2socks
+          rm -rf feeds/lienol/shadowsocksr-libev
+          rm -rf feeds/lienol/pdnsd-alt
+          
+          # 更新依赖
+          ./scripts/feeds install -a
 
           cd /opt/lede/package/lean/
           
@@ -126,6 +132,8 @@ jobs:
           CONFIG_PACKAGE_amd64-microcode=y
           CONFIG_PACKAGE_intel-microcode=y
           CONFIG_PACKAGE_aircard-pcmcia-firmware=y
+          CONFIG_PACKAGE_kmod-ip6tables-extra=y
+          CONFIG_PACKAGE_ip6tables=y
           
           CONFIG_PACKAGE_open-vm-tools=y
           CONFIG_PACKAGE_open-vm-tools-fuse=y
@@ -161,9 +169,21 @@ jobs:
           CONFIG_PACKAGE_luci-app-vnstat=y
           CONFIG_PACKAGE_luci-app-wireguard=y
           # CONFIG_PACKAGE_luci-app-xlnetacc is not set
-          CONFIG_PACKAGE_luci-app-openclash=y
           CONFIG_PACKAGE_luci-app-serverchan=y
           
+          CONFIG_PACKAGE_luci-app-passwall=y
+          CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks=y
+          CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Server=y
+          CONFIG_PACKAGE_luci-app-passwall_INCLUDE_ShadowsocksR=y
+          CONFIG_PACKAGE_luci-app-passwall_INCLUDE_ShadowsocksR_Server=y
+          CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Xray=y
+          CONFIG_PACKAGE_luci-app-passwall_INCLUDE_V2ray=y
+          CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Trojan_Plus=y
+          CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Trojan_GO=y
+          CONFIG_PACKAGE_luci-app-passwall_INCLUDE_haproxy=y
+          CONFIG_PACKAGE_luci-app-passwall_INCLUDE_https_dns_proxy=y
+          CONFIG_PACKAGE_luci-app-passwall_INCLUDE_v2ray-plugin=y
+          CONFIG_PACKAGE_luci-app-passwall_INCLUDE_simple-obfs=y     
           
           CONFIG_PACKAGE_luci-theme-argon=y
           CONFIG_PACKAGE_luci-app-argon-config=y
