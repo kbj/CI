@@ -53,7 +53,7 @@ jobs:
       - name: Update feeds
         run: |
           sed -i 's/#src-git helloworld/src-git helloworld/g' /opt/lede/feeds.conf.default
-          sed '$a\src-git lienol https://github.com/Lienol/openwrt-package' /opt/lede/feeds.conf.default
+          sed '$a\src-git lienol https://github.com/xiaorouji/openwrt-passwall' /opt/lede/feeds.conf.default
           
           cd /opt/lede
           
