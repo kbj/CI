@@ -53,17 +53,11 @@ jobs:
       - name: Update feeds
         run: |
           sed -i 's/#src-git helloworld/src-git helloworld/g' /opt/lede/feeds.conf.default
-          sed '$a\src-git lienol https://github.com/xiaorouji/openwrt-passwall' /opt/lede/feeds.conf.default
           
           cd /opt/lede
           
           # 更新依赖
           ./scripts/feeds update -a
-          
-          # 删除冲突依赖
-          rm -rf feeds/lienol/ipt2socks
-          rm -rf feeds/lienol/shadowsocksr-libev
-          rm -rf feeds/lienol/pdnsd-alt
           
           # 更新依赖
           ./scripts/feeds install -a
@@ -87,6 +81,10 @@ jobs:
           
           # 微信推送
           git clone --depth=1 https://github.com/tty228/luci-app-serverchan.git
+          
+          git clone --depth=1 https://github.com/vernesong/OpenClash.git
+          mv OpenClash/luci-app-openclash /opt/lede/package/lean/
+          rm -rf OpenClash
 
       - name: Generate configuration file
         run: |
